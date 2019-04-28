@@ -3,11 +3,9 @@ https://cloud.google.com/solutions/creating-object-detection-application-tensorf
 
 https://github.com/GoogleCloudPlatform/tensorflow-object-detection-example/blob/master/object_detection_app/app.py
 
-https://github.com/EdjeElectronics/TensorFlow-Object-Detection-API-Tutorial-Train-Multiple-Objects-Windows-10
-
 https://tensorflow-object-detection-api-tutorial.readthedocs.io/en/latest/training.html
 
-#### 1. Download and Install Anaconda
+### 1. Download and Install Anaconda
 ```
 # Download the latest Anaconda
 $ wget https://repo.anaconda.com/archive/Anaconda3-2019.03-Linux-x86_64.sh
@@ -24,22 +22,23 @@ $ source ~/.bashrc
 $ sudo apt install build-essential
 ```
 
-#### 2. Clone tensorflow models
+### 2. Clone Google Tensorflow models
 ```
 $ git clone https://github.com/tensorflow/models.git tensorflow_models
 ```
 
-#### 3. Clone Object Detection Training source code
+### 3. Clone Object Detection Training source code
 ```
-$ git clone https://github.com/EdjeElectronics/TensorFlow-Object-Detection-API-Tutorial-Train-Multiple-Objects-Windows-10.git object_detection_tutorial
+$ git clone https://github.com/raycad/tensorflow_models.git
 ```
 
-#### 4. Copy all source code from "object_detection_tutorial" to the "tensorflow_models/research/object_detection" directory
+### 4. Copy all source code from "object_detection_tutorial" to the "tensorflow_models/research/object_detection" directory
+This action is to update the latest tensorflow stuff for training models
 ```
 $ cp -rf object_detection_tutorial/* tensorflow_models/research/object_detection
 ```
 
-#### 5. Create a new tensorflow_cpu environment
+### 5. Create a new tensorflow_cpu environment
 ```
 $ conda create -n tensorflow_cpu pip python=3.6
 
@@ -50,7 +49,7 @@ $ conda activate tensorflow_cpu
 $ conda deactivate
 ```
 
-#### 6. Install dependencies 
+### 6. Install dependencies 
 ```
 # [NOTE]: Install one by one package
 (tensorflow_cpu) seedotech@tensorflow:~/dev/tensorflow/tensorflow_models/research/object_detection$ conda install -c anaconda protobuf
@@ -72,13 +71,15 @@ $ pip list | grep
 	tensorflow-estimator 1.13.0  
 ```
 
-#### 7. Configure PYTHONPATH environment variable
+### 7. Configure PYTHONPATH environment variable
+
+**NOTE:** Every time the **"tensorflow_cpu"** virtual environment is exited, the **PYTHONPATH** variable is reset and needs to be set up again
+
 ```
-# Note: Every time the "tensorflow_cpu" virtual environment is exited, the PYTHONPATH variable is reset and needs to be set up again
 (tensorflow_cpu) seedotech@tensorflow:~/dev/tensorflow/tensorflow_models/research$ export PYTHONPATH=~/dev/tensorflow/tensorflow_models:~/dev/tensorflow/tensorflow_models/research:~/dev/tensorflow/tensorflow_models/research/slim
 ```
 
-#### 8. Compile Protobufs and run setup.py
+### 8. Compile protobufs and run setup.py
 ```
 (tensorflow_cpu) seedotech@tensorflow:~/dev/tensorflow/tensorflow_models/research$ protoc ./object_detection/protos/*.proto --python_out=.
 (tensorflow_cpu) seedotech@tensorflow:~/dev/tensorflow/tensorflow_models/research$ python setup.py build
@@ -88,18 +89,21 @@ $ pip list | grep
 (tensorflow_cpu) seedotech@tensorflow:~/dev/tensorflow/tensorflow_models/research/object_detection$ jupyter notebook object_detection_tutorial.ipynb
 ```
 
-#### 9. Gather and Label Pictures. Use LabelImg to label and make annotation images
+### 9. Gather and label pictures. Use LabelImg to label and make annotation images
+
+https://github.com/tzutalin/labelImg
+
 ```
 # You can check if the size of each bounding box is correct by running sizeChecker.py
 (tensorflow_cpu) seedotech@tensorflow:~/dev/tensorflow/tensorflow_models/research/object_detection$ python sizeChecker.py --move
 ```
 
-#### 10. Generate Training Data. This creates a train_labels.csv and test_labels.csv file in the /object_detection/images folder
+### 10. Generate Training Data. This creates a train_labels.csv and test_labels.csv file in the /object_detection/images folder
 ```
 (tensorflow_cpu) seedotech@tensorflow:~/dev/tensorflow/tensorflow_models/research/object_detection$ python xml_to_csv.py
 ```
 
-#### 11. Open the generate_tfrecord.py file in a text editor. **Replace the label map starting at line 31 with your own label map**, where each object is assigned an ID number. 
+### 11. Open the generate_tfrecord.py file in a text editor. Replace the label map starting at line 31 with your own label map, where each object is assigned an ID number. 
 ```
 # This same number assignment will be used when configuring the labelmap.pbtxt file
 # Then, generate the TFRecord files by issuing these commands from the /object_detection folder
@@ -108,7 +112,7 @@ $ pip list | grep
 (tensorflow_cpu) seedotech@tensorflow:~/dev/tensorflow/tensorflow_models/research/object_detection$ python generate_tfrecord.py --csv_input=images/test_labels.csv --image_dir=images/test --output_path=test.record
 ```
 
-#### 12. Use the Faster-RCNN-Inception-V2 model. Download the model from http://download.tensorflow.org/models/object_detection/faster_rcnn_inception_v2_coco_2018_01_28.tar.gz.
+### 12. Use the Faster-RCNN-Inception-V2 model. Download the model from http://download.tensorflow.org/models/object_detection/faster_rcnn_inception_v2_coco_2018_01_28.tar.gz.
 ```
 (tensorflow_cpu) seedotech@tensorflow:~/dev/tensorflow/tensorflow_models/research/object_detection$ wget http://download.tensorflow.org/models/object_detection/faster_rcnn_inception_v2_coco_2018_01_28.tar.gz
 # Extract the faster_rcnn_inception_v2_coco_2018_01_28 folder to the "object_detection" folder
@@ -146,7 +150,7 @@ eval_input_reader: {
 }
 ```
 
-#### 13. Train the Object Detection Model
+### 13. Train the Object Detection Model
 ```
 (tensorflow_cpu) seedotech@tensorflow:~/dev/tensorflow/tensorflow_models/research/object_detection$ python model_main.py --logtostderr --train_dir=training/ --pipeline_config_path=training/faster_rcnn_inception_v2_pets.config
 
@@ -156,7 +160,7 @@ eval_input_reader: {
 (tensorflow_cpu) seedotech@tensorflow:~/dev/tensorflow/tensorflow_models/research/object_detection$ python train.py --logtostderr --train_dir=training/ --pipeline_config_path=training/faster_rcnn_inception_v2_pets.config
 ```
 
-#### 14. Export Inference Graph
+### 14. Export Inference Graph
 ```
 Now that training is complete, the last step is to generate the frozen inference graph (.pb file). From the /object_detection folder, issue the following command, where “XXXX” in "model.ckpt-XXXX" should be replaced with the highest-numbered .ckpt file in the training folder:
 
@@ -168,20 +172,23 @@ e.g.
 This creates a frozen_inference_graph.pb file in the /object_detection/inference_graph folder. The .pb file contains the object detection classifier.
 ```
 
-#### 15. Run Object Detection Example
+### 15. Run Object Detection Example
 ```
 $ python object_detection_image.py
 ```
 
-#### 16. Common Issues
+### 16. Common Issues
 1. File "/home/seedotech/anaconda3/envs/tensorflow_cpu/lib/python3.6/site-packages/object_detection-0.1-py3.6.egg/object_detection/utils/learning_s
 chedules.py", line 160, in manual_stepping
     raise ValueError('First step cannot be zero.')
 ValueError: First step cannot be zero.
->>>> [FIX]: 
-	$ nano utils/learning_schedules.py
-Then uncomment 2 lines in line 160:
+
+**[FIX]** 
 ```
+$ nano utils/learning_schedules.py
+
+Then uncomment 2 lines in line 160:
+
 #if boundaries and boundaries[0] == 0:
 #  raise ValueError('First step cannot be zero.')
 ```
