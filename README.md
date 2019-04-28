@@ -65,8 +65,7 @@ $ conda deactivate
 # Upgrade the tensorflow. It works with tensorflow 1.13.0
 (tensorflow_cpu) seedotech@tensorflow:~/dev/tensorflow/tensorflow_models/research/object_detection$ pip install --upgrade tensorflow
 
-$ pip list | grep
-	tensorflow
+$ pip list | grep tensorflow	
 	tensorflow           1.13.1  
 	tensorflow-estimator 1.13.0  
 ```
