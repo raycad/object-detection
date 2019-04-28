@@ -1,9 +1,6 @@
 ## Object Detection Using Deep-Learning
-https://cloud.google.com/solutions/creating-object-detection-application-tensorflow
 
-https://github.com/GoogleCloudPlatform/tensorflow-object-detection-example/blob/master/object_detection_app/app.py
-
-https://tensorflow-object-detection-api-tutorial.readthedocs.io/en/latest/training.html
+The main source code is located in the folder: **./research/object_detection**
 
 ### 1. Download and Install Anaconda
 ```
@@ -228,3 +225,7 @@ https://github.com/tensorflow/models
 https://cloud.google.com/solutions/creating-object-detection-application-tensorflow
 
 https://github.com/tensorflow/models/blob/master/research/object_detection/object_detection_tutorial.ipynb
+
+https://github.com/GoogleCloudPlatform/tensorflow-object-detection-example/blob/master/object_detection_app/app.py
+
+https://tensorflow-object-detection-api-tutorial.readthedocs.io/en/latest/training.html
