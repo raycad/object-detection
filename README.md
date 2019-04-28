@@ -1,13 +1,4 @@
-
-### Using pytesseract OCR lib to extract the characters from the image and OpenCV Image Processing lib to compare two images
-```
-$ sudo apt install tesseract-ocr
-$ sudo apt install libtesseract-dev
-
-$ pip3 install numpy opencv-contrib-python pytesseract
-```
-
-### Use Deep-Learning
+## Object Detection Using Deep-Learning
 https://cloud.google.com/solutions/creating-object-detection-application-tensorflow
 
 https://github.com/GoogleCloudPlatform/tensorflow-object-detection-example/blob/master/object_detection_app/app.py
@@ -84,7 +75,7 @@ $ pip list | grep
 #### 7. Configure PYTHONPATH environment variable
 ```
 # Note: Every time the "tensorflow_cpu" virtual environment is exited, the PYTHONPATH variable is reset and needs to be set up again
-(tensorflow_cpu) seedotech@tensorflow:~/dev/tensorflow/tensorflow_models/research$ export PYTHONPATH=~/dev/tensorflow/tensorflow_models~/dev/tensorflow/tensorflow_models/research:~/dev/tensorflow/tensorflow_models/research/slim
+(tensorflow_cpu) seedotech@tensorflow:~/dev/tensorflow/tensorflow_models/research$ export PYTHONPATH=~/dev/tensorflow/tensorflow_models:~/dev/tensorflow/tensorflow_models/research:~/dev/tensorflow/tensorflow_models/research/slim
 ```
 
 #### 8. Compile Protobufs and run setup.py
@@ -108,13 +99,14 @@ $ pip list | grep
 (tensorflow_cpu) seedotech@tensorflow:~/dev/tensorflow/tensorflow_models/research/object_detection$ python xml_to_csv.py
 ```
 
-#### 11. Open the generate_tfrecord.py file in a text editor. Replace the label map starting at line 31 with your own label map, where each object is assigned an ID number. 
+#### 11. Open the generate_tfrecord.py file in a text editor. **Replace the label map starting at line 31 with your own label map**, where each object is assigned an ID number. 
 ```
 # This same number assignment will be used when configuring the labelmap.pbtxt file
 # Then, generate the TFRecord files by issuing these commands from the /object_detection folder
 # These generate a train.record and a test.record file in "/object_detection". These will be used to train the new object detection classifier.
 (tensorflow_cpu) seedotech@tensorflow:~/dev/tensorflow/tensorflow_models/research/object_detection$ python generate_tfrecord.py --csv_input=images/train_labels.csv --image_dir=images/train --output_path=train.record
 (tensorflow_cpu) seedotech@tensorflow:~/dev/tensorflow/tensorflow_models/research/object_detection$ python generate_tfrecord.py --csv_input=images/test_labels.csv --image_dir=images/test --output_path=test.record
+```
 
 #### 12. Use the Faster-RCNN-Inception-V2 model. Download the model from http://download.tensorflow.org/models/object_detection/faster_rcnn_inception_v2_coco_2018_01_28.tar.gz.
 ```
@@ -154,7 +146,7 @@ eval_input_reader: {
 }
 ```
 
-#### 13. Run the Training
+#### 13. Train the Object Detection Model
 ```
 (tensorflow_cpu) seedotech@tensorflow:~/dev/tensorflow/tensorflow_models/research/object_detection$ python model_main.py --logtostderr --train_dir=training/ --pipeline_config_path=training/faster_rcnn_inception_v2_pets.config
 
@@ -176,7 +168,7 @@ e.g.
 This creates a frozen_inference_graph.pb file in the /object_detection/inference_graph folder. The .pb file contains the object detection classifier.
 ```
 
-#### 15. Run Object Detection
+#### 15. Run Object Detection Example
 ```
 $ python object_detection_image.py
 ```
@@ -189,5 +181,7 @@ ValueError: First step cannot be zero.
 >>>> [FIX]: 
 	$ nano utils/learning_schedules.py
 Then uncomment 2 lines in line 160:
+```
 #if boundaries and boundaries[0] == 0:
 #  raise ValueError('First step cannot be zero.')
+```
