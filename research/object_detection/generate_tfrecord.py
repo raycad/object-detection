@@ -29,18 +29,22 @@ FLAGS = flags.FLAGS
 
 # TO-DO replace this with label map
 def class_text_to_int(row_label):
-    if row_label == 'nine':
+    if row_label == 'bluetooth_on':
         return 1
-    elif row_label == 'ten':
+    elif row_label == 'braking_on':
         return 2
-    elif row_label == 'jack':
+    elif row_label == 'calling_on':
         return 3
-    elif row_label == 'queen':
+    elif row_label == 'sms_on':
         return 4
-    elif row_label == 'king':
+    elif row_label == 'connection_lost':
         return 5
-    elif row_label == 'ace':
+    elif row_label == 'error_code':
         return 6
+    elif row_label == 'vin_id':
+        return 7
+    elif row_label == 'low_battery':
+        return 8
     else:
         None
 
