@@ -1,0 +1,40 @@
+item {
+  id: 1
+  name: 'bluetooth_on'
+}
+
+item {
+  id: 2
+  name: 'braking_on'
+}
+
+item {
+  id: 3
+  name: 'calling_on'
+}
+
+item {
+  id: 4
+  name: 'sms_on'
+}
+
+item {
+  id: 5
+  name: 'connection_lost'
+}
+
+item {
+  id: 6
+  name: 'error_code'
+}
+
+item {
+  id: 7
+  name: 'vin_id'
+}
+
+item {
+  id: 8
+  name: 'low_battery'
+}
+
