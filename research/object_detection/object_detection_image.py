@@ -1,26 +1,9 @@
-######## Image Object Detection Using Tensorflow-trained Classifier #########
-#
-# Author: Evan Juras
-# Date: 1/15/18
-# Description: 
-# This program uses a TensorFlow-trained classifier to perform object detection.
-# It loads the classifier uses it to perform object detection on an image.
-# It draws boxes and scores around the objects of interest in the image.
-
-## Some of the code is copied from Google's example at
-## https://github.com/tensorflow/models/blob/master/research/object_detection/object_detection_tutorial.ipynb
-
-## and some is copied from Dat Tran's example at
-## https://github.com/datitran/object_detector_app/blob/master/object_detection_app.py
-
-## but I changed it to make it more understandable to me.
-
-# Import packages
 import os
 import cv2
 import numpy as np
 import tensorflow as tf
 import sys
+from PIL import ImageFont
 
 # This is needed since the notebook is stored in the object_detection folder.
 sys.path.append("..")
@@ -31,8 +14,7 @@ from utils import visualization_utils as vis_util
 
 # Name of the directory containing the object detection module we're using
 MODEL_NAME = 'inference_graph'
-# IMAGE_NAME = 'test1.JPG'
-IMAGE_NAME = 'test5.png'
+IMAGE_NAME = 'test1.png'
 
 # Grab path to current working directory
 CWD_PATH = os.getcwd()
@@ -98,8 +80,13 @@ image_expanded = np.expand_dims(image, axis=0)
     [detection_boxes, detection_scores, detection_classes, num_detections],
     feed_dict={image_tensor: image_expanded})
 
-# Draw the results of the detection (aka 'visulaize the results')
+# try:
+#     font = ImageFont.truetype('DejaVuSansMono.ttf', 4)
+# except IOError:
+#     print("Can not change the image font default!")
+#     font = ImageFont.load_default()
 
+# Draw the results of the detection (aka 'visulaize the results')
 vis_util.visualize_boxes_and_labels_on_image_array(
     image,
     np.squeeze(boxes),
@@ -108,13 +95,11 @@ vis_util.visualize_boxes_and_labels_on_image_array(
     category_index,
     use_normalized_coordinates=True,
     line_thickness=2,
+    # Show all boxes that have score >= 60%
     min_score_thresh=0.60)
 
 # All the results have been drawn on image. Now display the image.
-cv2.imshow('Object detector', image)
+cv2.imshow('Object Detector', image)
 
-# Press any key to close the image
-cv2.waitKey(0)
-
-# Clean up
-cv2.destroyAllWindows()
+if cv2.waitKey(0) & 0xFF == ord('q'):
+    cv2.destroyAllWindows()

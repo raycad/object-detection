@@ -93,9 +93,11 @@ $ pip list | grep
 Use LabelImg (https://github.com/tzutalin/labelImg) to label and make annotation images
 
 ```
-# You can check if the size of each bounding box is correct by running sizeChecker.py
-(tensorflow_cpu) seedotech@tensorflow:~/dev/tensorflow/tensorflow_models/research/object_detection$ python sizeChecker.py --move
+# You can check if the size of each bounding box is correct by running size_checker.py
+(tensorflow_cpu) seedotech@tensorflow:~/dev/tensorflow/tensorflow_models/research/object_detection$ python size_checker.py --move
 ```
+
+![Label Images](./docs/label_images.png)
 
 ### 10. Generate Training Data
 This creates a train_labels.csv and test_labels.csv file in the /object_detection/images folder
@@ -162,6 +164,8 @@ eval_input_reader: {
 (tensorflow_cpu) seedotech@tensorflow:~/dev/tensorflow/tensorflow_models/research/object_detection$ python train.py --logtostderr --train_dir=training/ --pipeline_config_path=training/faster_rcnn_inception_v2_pets.config
 ```
 
+![Train Model](./docs/train_model.png)
+
 ### 14. Export Inference Graph
 ```
 Now that training is complete, the last step is to generate the frozen inference graph (.pb file). From the /object_detection folder, issue the following command, where “XXXX” in "model.ckpt-XXXX" should be replaced with the highest-numbered .ckpt file in the training folder:
@@ -181,8 +185,10 @@ Edit the **line 51** in the **object_detection_image.py** file to the number of 
 $ python object_detection_image.py
 ```
 
+![Result](./docs/ret1.png)
+
 ### 16. Common Issues
-1. File "/home/seedotech/anaconda3/envs/tensorflow_cpu/lib/python3.6/site-packages/object_detection-0.1-py3.6.egg/object_detection/utils/learning_s
+#### 16.1. File "/home/seedotech/anaconda3/envs/tensorflow_cpu/lib/python3.6/site-packages/object_detection-0.1-py3.6.egg/object_detection/utils/learning_s
 chedules.py", line 160, in manual_stepping
     raise ValueError('First step cannot be zero.')
 ValueError: First step cannot be zero.
@@ -196,3 +202,30 @@ Then uncomment 2 lines in line 160:
 #if boundaries and boundaries[0] == 0:
 #  raise ValueError('First step cannot be zero.')
 ```
+
+#### 16.2. Training process was killed without throwing any problems
+```
+INFO:tensorflow:global step 5778: loss = 0.0613 (2.646 sec/step)
+INFO:tensorflow:global step 5778: loss = 0.0613 (2.646 sec/step)
+INFO:tensorflow:global step 5779: loss = 0.0551 (2.673 sec/step)
+INFO:tensorflow:global step 5779: loss = 0.0551 (2.673 sec/step)
+INFO:tensorflow:global step 5780: loss = 0.0558 (2.737 sec/step)
+INFO:tensorflow:global step 5780: loss = 0.0558 (2.737 sec/step)
+INFO:tensorflow:global step 5781: loss = 0.0759 (2.663 sec/step)
+INFO:tensorflow:global step 5781: loss = 0.0759 (2.663 sec/step)
+INFO:tensorflow:global step 5782: loss = 0.0798 (2.706 sec/step)
+INFO:tensorflow:global step 5782: loss = 0.0798 (2.706 sec/step)
+INFO:tensorflow:global step 5783: loss = 0.0396 (2.661 sec/step)
+INFO:tensorflow:global step 5783: loss = 0.0396 (2.661 sec/step)
+Killed
+```
+
+It was caused by out-of-memory. Please check your RAM consumption.
+
+### 17. References
+
+https://github.com/tensorflow/models
+
+https://cloud.google.com/solutions/creating-object-detection-application-tensorflow
+
+https://github.com/tensorflow/models/blob/master/research/object_detection/object_detection_tutorial.ipynb
