@@ -97,7 +97,7 @@ Use LabelImg (https://github.com/tzutalin/labelImg) to label and make annotation
 (tensorflow_cpu) seedotech@tensorflow:~/dev/tensorflow/tensorflow_models/research/object_detection$ python size_checker.py --move
 ```
 
-![Label Images](./docs/label_images.png)
+![Label Images](./doc/label_images.png)
 
 ### 10. Generate Training Data
 This creates a train_labels.csv and test_labels.csv file in the /object_detection/images folder
@@ -164,7 +164,7 @@ eval_input_reader: {
 (tensorflow_cpu) seedotech@tensorflow:~/dev/tensorflow/tensorflow_models/research/object_detection$ python train.py --logtostderr --train_dir=training/ --pipeline_config_path=training/faster_rcnn_inception_v2_pets.config
 ```
 
-![Train Model](./docs/train_model.png)
+![Train Model](./doc/train_model.png)
 
 ### 14. Export Inference Graph
 ```
@@ -185,7 +185,7 @@ Edit the **line 51** in the **object_detection_image.py** file to the number of 
 $ python object_detection_image.py
 ```
 
-![Result](./docs/ret1.png)
+![Result](./doc/ret1.png)
 
 ### 16. Common Issues
 #### 16.1. File "/home/seedotech/anaconda3/envs/tensorflow_cpu/lib/python3.6/site-packages/object_detection-0.1-py3.6.egg/object_detection/utils/learning_s
