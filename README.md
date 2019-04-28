@@ -22,23 +22,23 @@ $ source ~/.bashrc
 $ sudo apt install build-essential
 ```
 
-### 2. Clone Google Tensorflow models
+### 2. Clone Google Tensorflow Models
 ```
 $ git clone https://github.com/tensorflow/models.git tensorflow_models
 ```
 
-### 3. Clone Object Detection Training source code
+### 3. Clone Object Detection Training Source Code
 ```
 $ git clone https://github.com/raycad/tensorflow_models.git
 ```
 
-### 4. Copy all source code from "object_detection_tutorial" to the "tensorflow_models/research/object_detection" directory
-This action is to update the latest tensorflow stuff for training models
+### 4. Update the Latest Object Detection Code 
+Copy all source code from "object_detection_tutorial" to the "tensorflow_models/research/object_detection" directory
 ```
 $ cp -rf object_detection_tutorial/* tensorflow_models/research/object_detection
 ```
 
-### 5. Create a new tensorflow_cpu environment
+### 5. Create a New tensorflow_cpu Environment
 ```
 $ conda create -n tensorflow_cpu pip python=3.6
 
@@ -49,7 +49,7 @@ $ conda activate tensorflow_cpu
 $ conda deactivate
 ```
 
-### 6. Install dependencies 
+### 6. Install Dependencies 
 ```
 # [NOTE]: Install one by one package
 (tensorflow_cpu) seedotech@tensorflow:~/dev/tensorflow/tensorflow_models/research/object_detection$ conda install -c anaconda protobuf
@@ -71,7 +71,7 @@ $ pip list | grep
 	tensorflow-estimator 1.13.0  
 ```
 
-### 7. Configure PYTHONPATH environment variable
+### 7. Configure PYTHONPATH Environment Variable
 
 **NOTE:** Every time the **"tensorflow_cpu"** virtual environment is exited, the **PYTHONPATH** variable is reset and needs to be set up again
 
@@ -79,7 +79,7 @@ $ pip list | grep
 (tensorflow_cpu) seedotech@tensorflow:~/dev/tensorflow/tensorflow_models/research$ export PYTHONPATH=~/dev/tensorflow/tensorflow_models:~/dev/tensorflow/tensorflow_models/research:~/dev/tensorflow/tensorflow_models/research/slim
 ```
 
-### 8. Compile protobufs and run setup.py
+### 8. Compile Protobufs and Run setup.py
 ```
 (tensorflow_cpu) seedotech@tensorflow:~/dev/tensorflow/tensorflow_models/research$ protoc ./object_detection/protos/*.proto --python_out=.
 (tensorflow_cpu) seedotech@tensorflow:~/dev/tensorflow/tensorflow_models/research$ python setup.py build
@@ -89,21 +89,22 @@ $ pip list | grep
 (tensorflow_cpu) seedotech@tensorflow:~/dev/tensorflow/tensorflow_models/research/object_detection$ jupyter notebook object_detection_tutorial.ipynb
 ```
 
-### 9. Gather and label pictures. Use LabelImg to label and make annotation images
-
-https://github.com/tzutalin/labelImg
+### 9. Gather and Label Pictures
+Use LabelImg (https://github.com/tzutalin/labelImg) to label and make annotation images
 
 ```
 # You can check if the size of each bounding box is correct by running sizeChecker.py
 (tensorflow_cpu) seedotech@tensorflow:~/dev/tensorflow/tensorflow_models/research/object_detection$ python sizeChecker.py --move
 ```
 
-### 10. Generate Training Data. This creates a train_labels.csv and test_labels.csv file in the /object_detection/images folder
+### 10. Generate Training Data
+This creates a train_labels.csv and test_labels.csv file in the /object_detection/images folder
 ```
 (tensorflow_cpu) seedotech@tensorflow:~/dev/tensorflow/tensorflow_models/research/object_detection$ python xml_to_csv.py
 ```
 
-### 11. Open the generate_tfrecord.py file in a text editor. Replace the label map starting at line 31 with your own label map, where each object is assigned an ID number. 
+### 11. Generate Tensorflow Records
+Open the generate_tfrecord.py file in a text editor then replace the label map starting at line 31 with your own label map, where each object is assigned an ID number
 ```
 # This same number assignment will be used when configuring the labelmap.pbtxt file
 # Then, generate the TFRecord files by issuing these commands from the /object_detection folder
@@ -112,7 +113,8 @@ https://github.com/tzutalin/labelImg
 (tensorflow_cpu) seedotech@tensorflow:~/dev/tensorflow/tensorflow_models/research/object_detection$ python generate_tfrecord.py --csv_input=images/test_labels.csv --image_dir=images/test --output_path=test.record
 ```
 
-### 12. Use the Faster-RCNN-Inception-V2 model. Download the model from http://download.tensorflow.org/models/object_detection/faster_rcnn_inception_v2_coco_2018_01_28.tar.gz.
+### 12. Use the Faster-RCNN-Inception-V2 Model
+Download the model from http://download.tensorflow.org/models/object_detection/faster_rcnn_inception_v2_coco_2018_01_28.tar.gz
 ```
 (tensorflow_cpu) seedotech@tensorflow:~/dev/tensorflow/tensorflow_models/research/object_detection$ wget http://download.tensorflow.org/models/object_detection/faster_rcnn_inception_v2_coco_2018_01_28.tar.gz
 # Extract the faster_rcnn_inception_v2_coco_2018_01_28 folder to the "object_detection" folder
@@ -173,6 +175,8 @@ This creates a frozen_inference_graph.pb file in the /object_detection/inference
 ```
 
 ### 15. Run Object Detection Example
+Edit the **line 51** in the **object_detection_image.py** file to the number of classes the object detector can identify
+
 ```
 $ python object_detection_image.py
 ```
