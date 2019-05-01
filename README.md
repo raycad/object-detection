@@ -2,6 +2,10 @@
 
 The main source code is located in the folder: **./research/object_detection**
 
+#### PROBLEM
+
+In **QC Process** we need to manually inspect the products to verify if the given icons on the products shown or not after performing an action. This is an example to guide you how to apply **Faster RCNN** to automate testing HMI by recognizing the given icons shown or not in each test case.
+
 ### 1. Download and Install Anaconda
 ```
 # Download the latest Anaconda
@@ -35,7 +39,7 @@ Copy all source code from "object_detection_tutorial" to the "tensorflow_models/
 $ cp -rf object_detection_tutorial/* tensorflow_models/research/object_detection
 ```
 
-### 5. Create a New tensorflow_cpu Environment
+### 5. Create a New Virtual Environment
 ```
 $ conda create -n tensorflow_cpu pip python=3.6
 
@@ -75,7 +79,7 @@ $ pip list | grep tensorflow
 (tensorflow_cpu) seedotech@tensorflow:~/dev/tensorflow/tensorflow_models/research$ export PYTHONPATH=~/dev/tensorflow/tensorflow_models:~/dev/tensorflow/tensorflow_models/research:~/dev/tensorflow/tensorflow_models/research/slim
 ```
 
-### 8. Compile Protobufs and Run setup.py
+### 8. Compile and Run Protobufs
 ```
 (tensorflow_cpu) seedotech@tensorflow:~/dev/tensorflow/tensorflow_models/research$ protoc ./object_detection/protos/*.proto --python_out=.
 (tensorflow_cpu) seedotech@tensorflow:~/dev/tensorflow/tensorflow_models/research$ python setup.py build
